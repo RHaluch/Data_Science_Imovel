@@ -19,8 +19,6 @@ alter table areaUtil add primary key (idAreaUtil);
 
 create table faixaPreco (idFaixaPreco numeric(3) not null, descricao varchar(100) not null);
 alter table faixaPreco add primary key (idFaixaPreco);
-#para testar faixa de preço
-insert into faixaPreco values(1,'teste'); 
 
 create table categoriaImovel (idCategoriaImovel numeric(2) not null, descricao varchar(200) not null);
 alter table categoriaImovel add primary key (idCategoriaImovel);
@@ -28,20 +26,21 @@ alter table categoriaImovel add primary key (idCategoriaImovel);
 create table numeroQuartos (idNumeroQuartos numeric(2) not null, descricao varchar(100) not null);
 alter table numeroQuartos add primary key (idNumeroQuartos);
 
-create table tipoOperacao (idTipoOperacao numeric(2) not null, descricao varchar(100) not null);
-alter table tipoOperacao add primary key (idTipoOperacao);
-
-create table imovel (idImovel numeric(5) not null, idNumeroQuartos numeric(2) not null, idFaixaPreco numeric(3) not null, idAreaUtil numeric(3) not null,
+create table imovel (idImovel numeric(5) not null, idNumeroQuartos numeric(2) not null, idAreaUtil numeric(3) not null,
 idCategoriaImovel numeric(2) not null, vagasGaragem numeric(2) not null, banheiros numeric(2) not null);
 alter table imovel add primary key (idImovel);
 alter table imovel add foreign key (idNumeroQuartos) references numeroQuartos (idNumeroQuartos);
-alter table imovel add foreign key (idFaixaPreco) references faixaPreco (idFaixaPreco);
 alter table imovel add foreign key (idAreaUtil) references areaUtil (idAreaUtil);
 alter table imovel add foreign key (idCategoriaImovel) references categoriaImovel (idCategoriaImovel);
 
+create table tipoOperacao (idTipoOperacao numeric(2) not null, idImovel numeric(5) not null, idFaixaPreco numeric(3) not null, descricao varchar(100) not null);
+alter table tipoOperacao add primary key (idTipoOperacao, idImovel);
+alter table tipoOperacao add foreign key (idImovel) references imovel (idImovel);
+alter table tipoOperacao add foreign key (idFaixaPreco) references faixaPreco (idFaixaPreco);
+
 create table fato 
 (idFato numeric(10) not null, idGrupoConsumidor numeric(5), idAnunciante numeric(3), idModalidadePagamento numeric(2), idImovel numeric(5), idTempoDiario numeric(5),
-idOperacao numeric(2), cep numeric(8));
+cep numeric(8));
 alter table fato add primary key (idFato);
 alter table fato add foreign key (cep) references localizacao (cep);
 alter table fato add foreign key (idImovel) references imovel(idImovel);

@@ -1,5 +1,5 @@
 import json, Conexao
-import gerenciarImovel, gerenciarLocal, gerenciarOperacao
+import gerenciarImovel, gerenciarLocal
 
 #abrir e carregar arquivo json
 arquivo = open('imobiliaria.json', encoding="UTF-8").read()
@@ -16,9 +16,6 @@ for item in imoveis:
 
 	#cadastrar ou trazer informações do imovel para tabela fato
 	fato.update({'idImovel':gerenciarImovel.cadastrarImovel(item, dataBase)})
-
-	#cadastrar operacao ou trazer uma ja existente para a tabela fato
-	fato.update({"idOperacao":gerenciarOperacao.cadastrarOperacao(item, dataBase)})
 
 	#cadastrar ou trazer cep para tabela fato
 	fato.update({'cep':gerenciarLocal.cadastrarLocal(item, dataBase)})
